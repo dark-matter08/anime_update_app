@@ -6,7 +6,9 @@ class ScreenManagement(ScreenManager):
     pass
 
 class MainWindow(MDScreen):
-    pass
+    def refresh_callback(self, *args):
+        print("Refreshing...")
+
 
 class AddUrlScreen(MDScreen):
     pass

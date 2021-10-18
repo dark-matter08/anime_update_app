@@ -24,3 +24,36 @@ ScreenManagement:
                 id: box
                 adaptive_height: True
                 cols: 1
+<AddUrlScreen>:
+    name: 'addurl'
+    id: addurl
+
+    # toolbar
+    MDBoxLayout:
+        orientation: 'vertical'
+
+        MDToolbar:
+            pos_hint: {'top': 1}
+            title: 'Settings'
+            left_action_items: [["keyboard-backspace", lambda x: app.return_to_main_window()]]
+
+        MDFloatLayout:
+            size_hint: 1, .9
+            id: linkscreen
+
+            MDTextField:
+                id: linkinput
+                size_hint: .8, None
+                pos_hint: {'center_x': .5, 'y': .9}
+                hint_text: 'Add Url'
+                mode: 'rectangle'
+                text_validate_unfocus: False
+                on_text_validate: root.add_url(linkinput.text)
+
+            ScrollView:
+                md_bg_color: app.theme_cls.primary_color
+                pos_hint: {'center_x': .5, 'y': .1}
+                size_hint: .9, .8
+
+                MDList:
+                    id: linklist
