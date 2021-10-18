@@ -57,3 +57,12 @@ ScreenManagement:
 
                 MDList:
                     id: linklist
+<CustomListItem>:
+    IconLeftWidget:
+        icon: "web"
+
+    IconRightWidget:
+        icon: "trash-can"
+        theme_text_color: "Custom"
+        text_color: 1, 0, 0, 1
+        on_release: root.delete_item(root.text)
