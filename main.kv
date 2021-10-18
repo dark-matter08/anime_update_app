@@ -1,20 +1,22 @@
+# main.kv
+
 ScreenManagement:
     MainWindow:
     AddUrlScreen:
 
+# Main screen
+
 <MainWindow>:
     name: 'mainscreen'
-
     #toolbar
     MDBoxLayout:
         orientation: 'vertical'
 
         MDToolbar:
             pos_hint: {'top': 1}
-            title: 'AnimeUpdate'
-            right_action_items: [["link-variant-plus", lambda x: lambda x:app.open_settings_screen()]]
+            title: 'Anime Update'
+            right_action_items: [["link-variant-plus", lambda x:app.open_settings_screen()]] # opens setting window
 
-        # add these lines
         MDScrollViewRefreshLayout:
             id: refresh_layout
             refresh_callback: root.refresh_callback
@@ -24,6 +26,13 @@ ScreenManagement:
                 id: box
                 adaptive_height: True
                 cols: 1
+
+
+
+
+
+
+
 <AddUrlScreen>:
     name: 'addurl'
     id: addurl
@@ -37,9 +46,11 @@ ScreenManagement:
             title: 'Settings'
             left_action_items: [["keyboard-backspace", lambda x: app.return_to_main_window()]]
 
+
         MDFloatLayout:
             size_hint: 1, .9
             id: linkscreen
+
 
             MDTextField:
                 id: linkinput
@@ -57,12 +68,17 @@ ScreenManagement:
 
                 MDList:
                     id: linklist
+
+
 <CustomListItem>:
+
     IconLeftWidget:
         icon: "web"
+
 
     IconRightWidget:
         icon: "trash-can"
         theme_text_color: "Custom"
         text_color: 1, 0, 0, 1
+
         on_release: root.delete_item(root.text)
