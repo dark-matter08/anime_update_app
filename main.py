@@ -13,6 +13,16 @@ class MainWindow(MDScreen):
     def refresh_callback(self, *args):
         print("Refreshing...")
 
+        def refresh_callback():
+            self.ids.box.clear_widgets()
+
+            # call the get_anime_info method
+            self.get_anime_info()
+            self.ids.refresh_layout.refresh_done()
+
+        anime_thread = Thread(target=refresh_callback)
+        anime_thread.start()
+
     def get_anime_info(self):
         '''Get the anime info and creates a list item widget and adds it to screen'''
         # open shelve files and get the urls
