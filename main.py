@@ -3,6 +3,8 @@ from kivy.uix.screenmanager import ScreenManager, CardTransition
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.list import OneLineAvatarIconListItem, ThreeLineAvatarIconListItem, ImageLeftWidget
 import shelve, os
+from scrap import download_webpage # new import
+from threading import Thread # new import
 
 class ScreenManagement(ScreenManager):
     pass
@@ -10,6 +12,35 @@ class ScreenManagement(ScreenManager):
 class MainWindow(MDScreen):
     def refresh_callback(self, *args):
         print("Refreshing...")
+
+    def get_anime_info(self):
+        '''Get the anime info and creates a list item widget and adds it to screen'''
+        # open shelve files and get the urls
+        with shelve.open('./save_files/mydata') as shelf_file:
+            url_list = shelf_file['url_list']
+
+        # download data from each url
+        for url in url_list:
+            download_webpage(url)
+
+        # after downloading the data and saving it shelve file get the data and display it
+        with shelve.open('./save_files/mydata') as shelf_file:
+            for key in shelf_file.keys():
+                if key != 'url_list':
+                    print(key)
+                    anime = shelf_file[key]
+                    episodes = anime['episodes']
+                    completed = anime['completed']
+                    image = anime['image']
+
+                    anime_complete = 'completed' if completed else 'ongoing'
+                    # create a list item with the data
+                    list_item = ThreeLineAvatarIconListItem(text=key, secondary_text=f"[b]Status:[/b] {anime_complete}", tertiary_text=f"[b]Episodes:[/b] {episodes}")
+                    #add image to the list item
+                    list_item.add_widget(ImageLeftWidget(source=f"./images/{image}"))
+
+                    # finally add the list item to screen
+                    self.ids.box.add_widget(list_item)
 
 # new class
 class CustomListItem(OneLineAvatarIconListItem):
@@ -71,6 +102,8 @@ class MainApp(MDApp):
     def return_to_main_window(self):
         self.root.current = 'mainscreen'
         self.root.transition.direction = 'up'
+
+
 
 
 if __name__ == "__main__":
