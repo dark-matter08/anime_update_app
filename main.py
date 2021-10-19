@@ -5,10 +5,10 @@ from kivymd.uix.screen import MDScreen
 # from kivy.lang import Builder
 from kivymd.uix.list import OneLineAvatarIconListItem, ThreeLineAvatarIconListItem, ImageLeftWidget
 import shelve
-# from kivy.clock import Clock
+from kivy.clock import Clock
 from scrap import download_webpage
 import os
-# from kivy.resources import resource_add_path, resource_find
+from kivy.resources import resource_add_path, resource_find
 from threading import Thread
 
 # path = os.getcwd().a
@@ -29,15 +29,6 @@ class CustomListItem(OneLineAvatarIconListItem):
             shelf_file['url_list'] = url_list
 
         self.parent.remove_widget(self)
-
-
-
-
-
-
-
-
-
 #------------------Screens-------------------------------#
 
 class ScreenManagement(ScreenManager):
@@ -55,9 +46,9 @@ class MainWindow(MDScreen):
             self.ids.refresh_layout.refresh_done()
             self.tick = 0
 
-        # Clock.schedule_once(refresh_callback, 1)
-        anime_thread = Thread(target=refresh_callback, args=(1,))
-        anime_thread.start()
+        Clock.schedule_once(refresh_callback, 1)
+        # anime_thread = Thread(target=refresh_callback, args=(1,))
+        # anime_thread.start()
 
     def get_anime_info(self):
         with shelve.open('./save_files/mydata') as shelf_file:
